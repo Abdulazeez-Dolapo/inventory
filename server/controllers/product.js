@@ -1,5 +1,5 @@
 const createError = require("http-errors")
-const { fetchAllProducts } = require("../queries/product")
+const { fetchAllProducts, fetchProduct } = require("../queries/product")
 
 const getAllProducts = async (req, res, next) => {
 	try {
@@ -14,4 +14,18 @@ const getAllProducts = async (req, res, next) => {
 	}
 }
 
-module.exports = { getAllProducts }
+const getProduct = async (req, res, next) => {
+	try {
+		const { coreNumber } = req.params
+		const product = await fetchProduct({ coreNumber }, "all")
+
+		return res.json({
+			success: true,
+			product,
+		})
+	} catch (error) {
+		return next(createError(500))
+	}
+}
+
+module.exports = { getAllProducts, getProduct }
