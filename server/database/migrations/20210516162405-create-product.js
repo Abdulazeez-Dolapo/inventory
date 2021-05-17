@@ -45,14 +45,14 @@ module.exports = {
 			nextOrderNote: {
 				type: Sequelize.STRING,
 			},
+			ignoreUntil: {
+				type: Sequelize.DATE,
+			},
 			vendorOrderUnit: {
-				type: Sequelize.STRING,
+				type: Sequelize.ENUM("Case", "Piece"),
 			},
 			vendorCasePack: {
 				type: Sequelize.INTEGER,
-			},
-			ignoreUntil: {
-				type: Sequelize.DATE,
 			},
 			createdAt: {
 				allowNull: false,

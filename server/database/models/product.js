@@ -19,25 +19,27 @@ module.exports = (sequelize, DataTypes) => {
 				as: "backupVendor",
 			})
 
-			this.hasOne(models.Packing)
 			this.belongsTo(models.Packing, {
+				foreignKey: "coreNumber",
 				targetKey: "productCode",
-				foreignKey: "packing",
+				as: "packing",
 			})
 
-			this.hasOne(models.Tag)
 			this.belongsTo(models.Tag, {
+				foreignKey: "coreNumber",
 				targetKey: "productCode",
-				foreignKey: "tags",
+				as: "tag",
 			})
 
 			this.hasMany(models.Location, {
 				foreignKey: "productCode",
+				sourceKey: "coreNumber",
 				as: "locations",
 			})
 
 			this.hasMany(models.Note, {
 				foreignKey: "productCode",
+				sourceKey: "coreNumber",
 				as: "notes",
 			})
 		}
@@ -58,7 +60,7 @@ module.exports = (sequelize, DataTypes) => {
 			productUrl: DataTypes.STRING,
 			nextOrderNote: DataTypes.STRING,
 			ignoreUntil: DataTypes.DATE,
-			vendorOrderUnit: DataTypes.STRING,
+			vendorOrderUnit: DataTypes.ENUM("Case", "Piece"),
 			vendorCasePack: DataTypes.INTEGER,
 		},
 		{

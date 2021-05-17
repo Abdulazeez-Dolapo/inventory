@@ -11,17 +11,17 @@ module.exports = (sequelize, DataTypes) => {
 			// define association here
 			this.belongsTo(models.Product, {
 				foreignKey: "productCode",
-				as: "product",
+				targetKey: "coreNumber",
 			})
 		}
 	}
 
 	Packing.init(
 		{
+			productCode: DataTypes.STRING,
 			casePack: DataTypes.INTEGER,
 			piecesPerInternalBox: DataTypes.INTEGER,
 			boxesPerCase: DataTypes.INTEGER,
-			productCode: DataTypes.STRING,
 		},
 		{
 			sequelize,

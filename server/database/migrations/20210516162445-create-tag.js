@@ -23,7 +23,7 @@ module.exports = {
 				type: Sequelize.STRING,
 			},
 			tagFour: {
-				type: Sequelize.STRING,
+				type: Sequelize.INTEGER,
 			},
 			createdAt: {
 				allowNull: false,

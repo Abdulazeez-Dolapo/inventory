@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
 
 	Vendor.init(
 		{
-			vendor: DataTypes.INTEGER,
+			vendor: { type: DataTypes.INTEGER, primaryKey: true },
 			title: DataTypes.STRING,
 			sku: DataTypes.INTEGER,
 		},
