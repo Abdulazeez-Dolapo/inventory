@@ -4,6 +4,8 @@ const cors = require("cors")
 const { join } = require("path")
 const logger = require("morgan")
 
+const appRoutes = require("./routes")
+
 const { json, urlencoded } = express
 
 const app = express()
@@ -20,6 +22,7 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions))
+app.use("/api", appRoutes)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
