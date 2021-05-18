@@ -26,7 +26,7 @@ const Header = () => {
 				<Toolbar>
 					<Container maxWidth="lg">
 						<Grid container>
-							<Grid item xs={12} sm={3}>
+							<Grid item xs={12}>
 								<Typography
 									onClick={e => goToPage("/")}
 									variant="h6"

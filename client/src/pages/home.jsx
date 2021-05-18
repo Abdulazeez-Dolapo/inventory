@@ -6,7 +6,7 @@ import AppLayout from "../components/Layouts/AppLayout"
 import Product from "../components/Cards/Product"
 import ProductSkeleton from "../components/Loaders/ProductSkeleton"
 
-import { fetchAllProducts } from "../services/product"
+import { fetchAllProducts, updateProductQuantity } from "../services/product"
 import homeStyles from "../styles/pages/home"
 import { Container, Grid } from "@material-ui/core"
 
@@ -16,6 +16,7 @@ const Home = () => {
 	const classes = useStyles()
 
 	const [loading, setLoading] = useState(false)
+	const [updateLoading, setUpdateLoading] = useState(false)
 	const [products, setProducts] = useState(false)
 	const [error, setError] = useState(false)
 
@@ -38,6 +39,42 @@ const Home = () => {
 		getProducts()
 	}, [])
 
+	const handleUpdate = async (locationId, data, coreNumber) => {
+		try {
+			setUpdateLoading(true)
+			await updateProductQuantity(locationId, data)
+
+			// Find the product whose location quantity was updated.
+			const product = products.find(
+				product => product.coreNumber === coreNumber
+			)
+
+			// Update quantity of updated location of said product
+			product.locations = product?.locations.map(location => {
+				if (location.id === locationId) {
+					return { ...location, quantity: data?.newQuantity }
+				}
+
+				return location
+			})
+
+			// Replace updated product in list of all products.
+			const newProducts = products.map(prod => {
+				if (prod.coreNumber === coreNumber) {
+					return product
+				}
+
+				return prod
+			})
+
+			setProducts(newProducts)
+			setUpdateLoading(false)
+		} catch (error) {
+			setUpdateLoading(false)
+			console.log(error)
+		}
+	}
+
 	return (
 		<AppLayout>
 			<Container maxWidth="lg">
@@ -53,7 +90,11 @@ const Home = () => {
 						: products?.length > 0
 						? products.map(product => (
 								<Grid item xs={12} sm={4} md={3} key={product.id}>
-									<Product product={product} />
+									<Product
+										handleUpdate={handleUpdate}
+										product={product}
+										updateLoading={updateLoading}
+									/>
 								</Grid>
 						  ))
 						: ""}
