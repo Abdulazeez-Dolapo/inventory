@@ -69,6 +69,7 @@ const Home = () => {
 
 			setProducts(newProducts)
 			setUpdateLoading(false)
+			return Promise.resolve()
 		} catch (error) {
 			setUpdateLoading(false)
 			console.log(error)

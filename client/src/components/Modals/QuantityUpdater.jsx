@@ -35,7 +35,7 @@ const QuantityUpdater = props => {
 		const { name, value } = e.target
 		setFormInfo({ ...formInfo, [name]: value })
 	}
-	const handleSubmit = e => {
+	const handleSubmit = async e => {
 		e.preventDefault()
 		const location = locations.find(
 			location => location.id === formInfo.location
@@ -49,7 +49,8 @@ const QuantityUpdater = props => {
 			newQuantity = location?.quantity - parseInt(formInfo.quantity)
 		}
 
-		handleUpdate(formInfo.location, { newQuantity }, coreNumber)
+		await handleUpdate(formInfo.location, { newQuantity }, coreNumber)
+		handleClose()
 	}
 
 	return (
