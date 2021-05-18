@@ -13,7 +13,7 @@ const AppLayout = props => {
 		<div className={classes.root}>
 			<Header />
 
-			<div>{props.children}</div>
+			<div className={classes.page}>{props.children}</div>
 		</div>
 	)
 }

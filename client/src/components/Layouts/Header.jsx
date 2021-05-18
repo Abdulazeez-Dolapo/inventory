@@ -5,6 +5,7 @@ import AppBar from "@material-ui/core/AppBar"
 import Toolbar from "@material-ui/core/Toolbar"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
+import Container from "@material-ui/core/Container"
 
 import headerStyles from "../../styles/layout/header"
 
@@ -23,17 +24,19 @@ const Header = () => {
 		<div className={classes.root}>
 			<AppBar position="sticky">
 				<Toolbar>
-					<Grid container>
-						<Grid item xs={12} sm={3}>
-							<Typography
-								onClick={e => goToPage("/")}
-								variant="h6"
-								className={classes.title}
-							>
-								Inventory Management System
-							</Typography>
+					<Container maxWidth="lg">
+						<Grid container>
+							<Grid item xs={12} sm={3}>
+								<Typography
+									onClick={e => goToPage("/")}
+									variant="h6"
+									className={classes.title}
+								>
+									Inventory Management System
+								</Typography>
+							</Grid>
 						</Grid>
-					</Grid>
+					</Container>
 				</Toolbar>
 			</AppBar>
 		</div>
