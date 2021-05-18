@@ -33,6 +33,13 @@ const Product = props => {
 		setOpen(false)
 	}
 
+	const getTotalAvailableQuantity = locations => {
+		return locations?.reduce(
+			(accumulator, currentValue) => accumulator + currentValue.quantity,
+			0
+		)
+	}
+
 	return (
 		<Fragment>
 			<Card className={classes.root}>
@@ -65,6 +72,17 @@ const Product = props => {
 						>
 							Minimum Order Quantity:{" "}
 							<span className={classes.bold}>{moq}</span>
+						</Typography>
+
+						<Typography
+							className={classes.text}
+							variant="body2"
+							color="textSecondary"
+						>
+							Total Available Quantity:{" "}
+							<span className={classes.bold}>
+								{getTotalAvailableQuantity(locations)}
+							</span>
 						</Typography>
 					</CardContent>
 				</CardActionArea>

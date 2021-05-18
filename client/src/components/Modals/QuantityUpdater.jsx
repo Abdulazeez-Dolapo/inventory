@@ -28,8 +28,8 @@ const QuantityUpdater = props => {
 	})
 
 	const operations = [
-		{ name: "Add To", value: "add" },
-		{ name: "Subtract From", value: "minus" },
+		{ name: "Add to", value: "add" },
+		{ name: "Remove from", value: "minus" },
 	]
 	const handleChange = e => {
 		const { name, value } = e.target
