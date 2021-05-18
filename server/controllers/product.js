@@ -3,7 +3,7 @@ const { fetchAllProducts, fetchProduct } = require("../queries/product")
 
 const getAllProducts = async (req, res, next) => {
 	try {
-		const products = await fetchAllProducts()
+		const products = await fetchAllProducts(["locations"])
 
 		return res.json({
 			success: true,
