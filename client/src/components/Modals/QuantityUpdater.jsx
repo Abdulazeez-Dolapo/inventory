@@ -21,36 +21,62 @@ const QuantityUpdater = props => {
 	const { open, handleClose, locations, coreNumber, handleUpdate, loading } =
 		props
 
-	const [formInfo, setFormInfo] = useState({
+	const initialFormState = {
 		location: (locations && locations[0]?.id) || 1,
 		quantity: 1,
 		operation: "add",
-	})
+	}
+	const [formInfo, setFormInfo] = useState(initialFormState)
 
 	const operations = [
 		{ name: "Add to", value: "add" },
 		{ name: "Remove from", value: "minus" },
 	]
+
 	const handleChange = e => {
 		const { name, value } = e.target
 		setFormInfo({ ...formInfo, [name]: value })
 	}
+
 	const handleSubmit = async e => {
-		e.preventDefault()
-		const location = locations.find(
-			location => location.id === formInfo.location
-		)
+		try {
+			e.preventDefault()
+			const location = locations.find(
+				location => location.id === formInfo.location
+			)
 
-		let newQuantity = location?.quantity
-		if (formInfo.operation === "add") {
-			newQuantity = location?.quantity + parseInt(formInfo.quantity)
+			let newQuantity = location?.quantity
+			if (formInfo.operation === "add") {
+				newQuantity = location?.quantity + parseInt(formInfo.quantity)
+			}
+			if (formInfo.operation === "minus") {
+				newQuantity = location?.quantity - parseInt(formInfo.quantity)
+			}
+
+			await handleUpdate(formInfo.location, { newQuantity }, coreNumber)
+			resetForm()
+			handleClose()
+		} catch (error) {
+			console.log("error happened")
 		}
-		if (formInfo.operation === "minus") {
-			newQuantity = location?.quantity - parseInt(formInfo.quantity)
+	}
+
+	// Make sure quantity entered to remove does not exceed the available quantity in that location.
+	const validateQuantity = () => {
+		const { quantity, operation, location } = formInfo
+
+		const selectedLocation = locations?.find(loc => loc.id === location)
+		const locationQuantity = selectedLocation?.quantity
+
+		if (operation === "minus") {
+			return locationQuantity < parseInt(quantity)
 		}
 
-		await handleUpdate(formInfo.location, { newQuantity }, coreNumber)
-		handleClose()
+		return false
+	}
+
+	const resetForm = () => {
+		setFormInfo(initialFormState)
 	}
 
 	return (
@@ -134,6 +160,11 @@ const QuantityUpdater = props => {
 											value={formInfo.quantity}
 											onChange={handleChange}
 											fullWidth
+											helperText={
+												validateQuantity() &&
+												"Quantity exceeds available quantity in selected location"
+											}
+											error={validateQuantity()}
 										/>
 									</Grid>
 								</Grid>
@@ -148,6 +179,7 @@ const QuantityUpdater = props => {
 									type="submit"
 									variant="contained"
 									color="primary"
+									disabled={validateQuantity()}
 								>
 									Update
 								</Button>

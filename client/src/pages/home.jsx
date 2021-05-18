@@ -72,7 +72,7 @@ const Home = () => {
 			return Promise.resolve()
 		} catch (error) {
 			setUpdateLoading(false)
-			console.log(error)
+			return Promise.reject()
 		}
 	}
 
