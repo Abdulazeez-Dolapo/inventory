@@ -17,7 +17,7 @@ app.use(express.static(join(__dirname, "public")))
 
 const corsOptions = {
 	origin: process.env.FRONTEND_URL,
-	methods: "GET,PUT,POST,DELETE,OPTIONS",
+	methods: "GET,PUT,POST,PATCH",
 	optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
