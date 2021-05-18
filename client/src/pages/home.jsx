@@ -32,7 +32,6 @@ const Home = () => {
 			} catch (error) {
 				setLoading(false)
 				setError(true)
-				console.log(error)
 			}
 		}
 
@@ -87,7 +86,7 @@ const Home = () => {
 								</Grid>
 						  ))
 						: error
-						? ""
+						? "An error occured. Please try again later."
 						: products?.length > 0
 						? products.map(product => (
 								<Grid item xs={12} sm={4} md={3} key={product.id}>
@@ -98,7 +97,7 @@ const Home = () => {
 									/>
 								</Grid>
 						  ))
-						: ""}
+						: "No products Found"}
 				</Grid>
 			</Container>
 		</AppLayout>

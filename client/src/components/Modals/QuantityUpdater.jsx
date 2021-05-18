@@ -13,6 +13,7 @@ import CircularProgress from "@material-ui/core/CircularProgress"
 import { makeStyles } from "@material-ui/core"
 
 import quantityUpdaterStyles from "../../styles/quantityUpdater"
+import Notification from "../Utility/Notification"
 
 const useStyles = makeStyles(quantityUpdaterStyles)
 
@@ -27,6 +28,9 @@ const QuantityUpdater = props => {
 		operation: "add",
 	}
 	const [formInfo, setFormInfo] = useState(initialFormState)
+	const [severity, setSeverity] = useState("")
+	const [message, setMessage] = useState("")
+	const [openNotification, setOpenNotification] = useState(false)
 
 	const operations = [
 		{ name: "Add to", value: "add" },
@@ -56,7 +60,15 @@ const QuantityUpdater = props => {
 			await handleUpdate(formInfo.location, { newQuantity }, coreNumber)
 			resetForm()
 			handleClose()
+			handleAlert({
+				severity: "success",
+				message: `Quantity updated successfully for Location ${location?.location}`,
+			})
 		} catch (error) {
+			handleAlert({
+				severity: "error",
+				message: `An error occurred. Please try again later.`,
+			})
 			console.log("error happened")
 		}
 	}
@@ -79,116 +91,133 @@ const QuantityUpdater = props => {
 		setFormInfo(initialFormState)
 	}
 
+	const handleAlert = alertParams => {
+		const { severity, message } = alertParams
+		setOpenNotification(true)
+		setSeverity(severity)
+		setMessage(message)
+	}
+
 	return (
-		<div>
-			<Dialog
-				open={open}
-				onClose={handleClose}
-				aria-labelledby="form-dialog-title"
-			>
-				{loading ? (
-					<div className={classes.loader}>
-						<CircularProgress />
-					</div>
-				) : (
-					<Fragment>
-						<DialogTitle id="form-dialog-title">
-							Update Quantity of {coreNumber}
-						</DialogTitle>
+		<>
+			<div>
+				<Dialog
+					open={open}
+					onClose={handleClose}
+					aria-labelledby="form-dialog-title"
+				>
+					{loading ? (
+						<div className={classes.loader}>
+							<CircularProgress />
+						</div>
+					) : (
+						<Fragment>
+							<DialogTitle id="form-dialog-title">
+								Update Quantity of {coreNumber}
+							</DialogTitle>
 
-						<form onSubmit={handleSubmit}>
-							<DialogContent className={classes.dialogContent}>
-								<DialogContentText>
-									Select the location you want to update and input the
-									quantity to add or subtract from that location.
-								</DialogContentText>
+							<form onSubmit={handleSubmit}>
+								<DialogContent className={classes.dialogContent}>
+									<DialogContentText>
+										Select the location you want to update and input
+										the quantity to add or subtract from that
+										location.
+									</DialogContentText>
 
-								<Grid container spacing={3}>
-									<Grid item xs={12} sm={6}>
-										<TextField
-											size="small"
-											label="Location"
-											select
-											value={formInfo.location}
-											name="location"
-											onChange={handleChange}
-											variant="outlined"
-											fullWidth
-										>
-											{locations.map(location => (
-												<MenuItem
-													key={location.id}
-													value={location.id}
-												>
-													{location.location}
-												</MenuItem>
-											))}
-										</TextField>
+									<Grid container spacing={3}>
+										<Grid item xs={12} sm={6}>
+											<TextField
+												size="small"
+												label="Location"
+												select
+												value={formInfo.location}
+												name="location"
+												onChange={handleChange}
+												variant="outlined"
+												fullWidth
+											>
+												{locations.map(location => (
+													<MenuItem
+														key={location.id}
+														value={location.id}
+													>
+														{location.location}
+													</MenuItem>
+												))}
+											</TextField>
+										</Grid>
+
+										<Grid item xs={12} sm={6}>
+											<TextField
+												size="small"
+												select
+												value={formInfo.operation}
+												name="operation"
+												onChange={handleChange}
+												variant="outlined"
+												label="Operation"
+												fullWidth
+											>
+												{operations.map(operation => (
+													<MenuItem
+														key={operation.value}
+														value={operation.value}
+													>
+														{operation.name}
+													</MenuItem>
+												))}
+											</TextField>
+										</Grid>
+
+										<Grid item xs={12}>
+											<TextField
+												autoFocus
+												size="small"
+												id="quantity"
+												name="quantity"
+												label="Quantity"
+												type="number"
+												variant="outlined"
+												value={formInfo.quantity}
+												onChange={handleChange}
+												fullWidth
+												helperText={
+													validateQuantity() &&
+													"Quantity exceeds available quantity in selected location"
+												}
+												error={validateQuantity()}
+											/>
+										</Grid>
 									</Grid>
+								</DialogContent>
 
-									<Grid item xs={12} sm={6}>
-										<TextField
-											size="small"
-											select
-											value={formInfo.operation}
-											name="operation"
-											onChange={handleChange}
-											variant="outlined"
-											label="Operation"
-											fullWidth
-										>
-											{operations.map(operation => (
-												<MenuItem
-													key={operation.value}
-													value={operation.value}
-												>
-													{operation.name}
-												</MenuItem>
-											))}
-										</TextField>
-									</Grid>
+								<DialogActions>
+									<Button onClick={handleClose} color="primary">
+										Cancel
+									</Button>
 
-									<Grid item xs={12}>
-										<TextField
-											autoFocus
-											size="small"
-											id="quantity"
-											name="quantity"
-											label="Quantity"
-											type="number"
-											variant="outlined"
-											value={formInfo.quantity}
-											onChange={handleChange}
-											fullWidth
-											helperText={
-												validateQuantity() &&
-												"Quantity exceeds available quantity in selected location"
-											}
-											error={validateQuantity()}
-										/>
-									</Grid>
-								</Grid>
-							</DialogContent>
+									<Button
+										type="submit"
+										variant="contained"
+										color="primary"
+										disabled={validateQuantity()}
+									>
+										Update
+									</Button>
+								</DialogActions>
+							</form>
+						</Fragment>
+					)}
+				</Dialog>
+			</div>
 
-							<DialogActions>
-								<Button onClick={handleClose} color="primary">
-									Cancel
-								</Button>
-
-								<Button
-									type="submit"
-									variant="contained"
-									color="primary"
-									disabled={validateQuantity()}
-								>
-									Update
-								</Button>
-							</DialogActions>
-						</form>
-					</Fragment>
-				)}
-			</Dialog>
-		</div>
+			<Notification
+				open={openNotification}
+				setOpen={setOpenNotification}
+				severity={severity}
+				message={message}
+			/>
+		</>
 	)
 }
 
