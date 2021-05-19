@@ -7,6 +7,10 @@ This project represents my solution to the coding assignment to build a subset o
 -  A product viewer to view all the stats in the sample data;
 -  A Quantity updater to update the quantity of a product in any of its warehouse locations.
 
+Backend deployed link: https://ims-jls.herokuapp.com
+
+Frontend deployed link: https://ims-jls.netlify.app
+
 ### Tech stack
 
 React and Material UI for the frontend, Node with Express for the backend, and Postgres for the database. The frontend is hosted on Netlify and the backend on Heroku.
