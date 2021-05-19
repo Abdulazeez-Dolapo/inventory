@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react"
+import { useHistory } from "react-router"
 
 import { makeStyles } from "@material-ui/core/styles"
+import Container from "@material-ui/core/Container"
+import Grid from "@material-ui/core/Grid"
 
 import AppLayout from "../components/Layouts/AppLayout"
 import Product from "../components/Cards/Product"
@@ -8,14 +11,14 @@ import ProductSkeleton from "../components/Loaders/ProductSkeleton"
 
 import { fetchAllProducts, updateProductQuantity } from "../services/product"
 import homeStyles from "../styles/pages/home"
-import { Container, Grid } from "@material-ui/core"
 
 const useStyles = makeStyles(homeStyles)
 
 const Home = () => {
 	const classes = useStyles()
+	const history = useHistory()
 
-	const [loading, setLoading] = useState(false)
+	const [loading, setLoading] = useState(true)
 	const [updateLoading, setUpdateLoading] = useState(false)
 	const [products, setProducts] = useState(false)
 	const [error, setError] = useState(false)
@@ -75,6 +78,10 @@ const Home = () => {
 		}
 	}
 
+	const routeToProduct = coreNumber => {
+		history.push(`/product/${coreNumber}`)
+	}
+
 	return (
 		<AppLayout>
 			<Container maxWidth="lg">
@@ -89,7 +96,14 @@ const Home = () => {
 						? "An error occured. Please try again later."
 						: products?.length > 0
 						? products.map(product => (
-								<Grid item xs={12} sm={4} md={3} key={product.id}>
+								<Grid
+									item
+									xs={12}
+									sm={4}
+									md={3}
+									onClick={e => routeToProduct(product.coreNumber)}
+									key={product.id}
+								>
 									<Product
 										handleUpdate={handleUpdate}
 										product={product}

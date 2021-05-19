@@ -28,7 +28,7 @@ const QuantityUpdater = props => {
 		operation: "add",
 	}
 	const [formInfo, setFormInfo] = useState(initialFormState)
-	const [severity, setSeverity] = useState("")
+	const [severity, setSeverity] = useState("success")
 	const [message, setMessage] = useState("")
 	const [openNotification, setOpenNotification] = useState(false)
 

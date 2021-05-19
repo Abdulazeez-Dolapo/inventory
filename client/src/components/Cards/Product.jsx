@@ -25,7 +25,9 @@ const Product = props => {
 
 	const [open, setOpen] = useState(false)
 
-	const handleClickOpen = () => {
+	const handleClickOpen = e => {
+		// Prevent button click from routing to product page
+		e.stopPropagation()
 		setOpen(true)
 	}
 
