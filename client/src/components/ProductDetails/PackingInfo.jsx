@@ -38,7 +38,7 @@ const PackingInfo = props => {
 
 			<List dense className={classes.list}>
 				{product?.notes.map(note => (
-					<ListItem disableGutters>
+					<ListItem key={note?.id} disableGutters>
 						<ListItemText
 							classes={{ primary: classes.noteText }}
 							primary={note?.content}

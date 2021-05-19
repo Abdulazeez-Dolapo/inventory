@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react"
-import { useHistory } from "react-router"
 
-import { makeStyles } from "@material-ui/core/styles"
 import Grid from "@material-ui/core/Grid"
 
 import AppLayout from "../components/Layouts/AppLayout"
@@ -9,14 +7,8 @@ import Product from "../components/Cards/Product"
 import ProductSkeleton from "../components/Loaders/ProductSkeleton"
 
 import { fetchAllProducts, updateProductQuantity } from "../services/product"
-import homeStyles from "../styles/pages/home"
-
-const useStyles = makeStyles(homeStyles)
 
 const Home = () => {
-	const classes = useStyles()
-	const history = useHistory()
-
 	const [loading, setLoading] = useState(true)
 	const [updateLoading, setUpdateLoading] = useState(false)
 	const [products, setProducts] = useState(false)
@@ -26,9 +18,10 @@ const Home = () => {
 		const getProducts = async () => {
 			try {
 				setLoading(true)
-				const { products } = await fetchAllProducts()
 
+				const { products } = await fetchAllProducts()
 				setProducts(products)
+
 				setLoading(false)
 				setError(false)
 			} catch (error) {
@@ -77,10 +70,6 @@ const Home = () => {
 		}
 	}
 
-	const routeToProduct = coreNumber => {
-		history.push(`/product/${coreNumber}`)
-	}
-
 	return (
 		<AppLayout>
 			<Grid container spacing={3}>
@@ -99,7 +88,7 @@ const Home = () => {
 								xs={12}
 								sm={4}
 								md={3}
-								onClick={e => routeToProduct(product.coreNumber)}
+								// onClick={e => routeToProduct(product.coreNumber)}
 								key={product.id}
 							>
 								<Product

@@ -1,4 +1,5 @@
 import { Fragment, useState } from "react"
+import { useHistory } from "react-router"
 
 import { makeStyles } from "@material-ui/core/styles"
 import Card from "@material-ui/core/Card"
@@ -18,6 +19,8 @@ const useStyles = makeStyles(productStyles)
 
 const Product = props => {
 	const classes = useStyles()
+	const history = useHistory()
+
 	const {
 		product: { internalTitle, coreNumber, moq, productUrl, locations },
 		handleUpdate,
@@ -27,9 +30,11 @@ const Product = props => {
 	const [open, setOpen] = useState(false)
 
 	const handleClickOpen = e => {
-		// Prevent button click from routing to product page
-		e.stopPropagation()
 		setOpen(true)
+	}
+
+	const routeToProduct = coreNumber => {
+		history.push(`/product/${coreNumber}`)
 	}
 
 	const handleClose = () => {
@@ -39,7 +44,7 @@ const Product = props => {
 	return (
 		<Fragment>
 			<Card className={classes.root}>
-				<CardActionArea>
+				<CardActionArea onClick={e => routeToProduct(coreNumber)}>
 					<CardMedia
 						component="img"
 						alt={internalTitle}
