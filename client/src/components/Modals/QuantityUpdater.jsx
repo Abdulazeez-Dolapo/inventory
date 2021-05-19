@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react"
+import { Fragment, useState, useEffect } from "react"
 
 import Button from "@material-ui/core/Button"
 import TextField from "@material-ui/core/TextField"
@@ -31,6 +31,13 @@ const QuantityUpdater = props => {
 	const [severity, setSeverity] = useState("success")
 	const [message, setMessage] = useState("")
 	const [openNotification, setOpenNotification] = useState(false)
+	const [timer, setTimer] = useState(null)
+
+	useEffect(() => {
+		return () => {
+			clearTimeout(timer)
+		}
+	}, [])
 
 	const operations = [
 		{ name: "Add to", value: "add" },
@@ -45,6 +52,7 @@ const QuantityUpdater = props => {
 	const handleSubmit = async e => {
 		try {
 			e.preventDefault()
+
 			const location = locations.find(
 				location => location.id === formInfo.location
 			)
@@ -69,7 +77,6 @@ const QuantityUpdater = props => {
 				severity: "error",
 				message: `An error occurred. Please try again later.`,
 			})
-			console.log("error happened")
 		}
 	}
 
@@ -96,6 +103,12 @@ const QuantityUpdater = props => {
 		setOpenNotification(true)
 		setSeverity(severity)
 		setMessage(message)
+
+		setTimer(
+			setTimeout(() => {
+				setOpenNotification(false)
+			}, 5000)
+		)
 	}
 
 	return (
