@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import { useHistory } from "react-router"
 
 import { makeStyles } from "@material-ui/core/styles"
-import Container from "@material-ui/core/Container"
 import Grid from "@material-ui/core/Grid"
 
 import AppLayout from "../components/Layouts/AppLayout"
@@ -84,36 +83,34 @@ const Home = () => {
 
 	return (
 		<AppLayout>
-			<Container maxWidth="lg">
-				<Grid container spacing={3}>
-					{loading
-						? [1, 2, 3, 4].map(num => (
-								<Grid key={num} item xs={12} sm={4} md={3}>
-									<ProductSkeleton />
-								</Grid>
-						  ))
-						: error
-						? "An error occured. Please try again later."
-						: products?.length > 0
-						? products.map(product => (
-								<Grid
-									item
-									xs={12}
-									sm={4}
-									md={3}
-									onClick={e => routeToProduct(product.coreNumber)}
-									key={product.id}
-								>
-									<Product
-										handleUpdate={handleUpdate}
-										product={product}
-										updateLoading={updateLoading}
-									/>
-								</Grid>
-						  ))
-						: "No products Found"}
-				</Grid>
-			</Container>
+			<Grid container spacing={3}>
+				{loading
+					? [1, 2, 3, 4].map(num => (
+							<Grid key={num} item xs={12} sm={4} md={3}>
+								<ProductSkeleton />
+							</Grid>
+					  ))
+					: error
+					? "An error occured. Please try again later."
+					: products?.length > 0
+					? products.map(product => (
+							<Grid
+								item
+								xs={12}
+								sm={4}
+								md={3}
+								onClick={e => routeToProduct(product.coreNumber)}
+								key={product.id}
+							>
+								<Product
+									handleUpdate={handleUpdate}
+									product={product}
+									updateLoading={updateLoading}
+								/>
+							</Grid>
+					  ))
+					: "No products Found"}
+			</Grid>
 		</AppLayout>
 	)
 }

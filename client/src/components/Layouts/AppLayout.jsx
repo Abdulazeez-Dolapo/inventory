@@ -1,4 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles"
+import Container from "@material-ui/core/Container"
 
 import Header from "./Header"
 
@@ -13,7 +14,9 @@ const AppLayout = props => {
 		<div className={classes.root}>
 			<Header />
 
-			<div className={classes.page}>{props.children}</div>
+			<Container maxWidth="lg" className={classes.page}>
+				{props.children}
+			</Container>
 		</div>
 	)
 }

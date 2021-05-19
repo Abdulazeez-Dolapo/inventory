@@ -7,3 +7,7 @@ export const fetchAllProducts = async () => {
 export const updateProductQuantity = async (locationId, newQuantity) => {
 	return axiosInstance.patch(`/location/${locationId}`, newQuantity)
 }
+
+export const fetchSingleProduct = async coreNumber => {
+	return axiosInstance.get(`/product/${coreNumber}`)
+}
