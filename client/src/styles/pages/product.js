@@ -3,6 +3,8 @@ const productStyles = theme => ({
 		width: "100%",
 		height: "100%",
 	},
+	buttonContainer: { paddingBottom: "0.5rem" },
+	link: { textDecoration: "none" },
 	containerPaper: {
 		height: "100%",
 		padding: "1rem",

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 
 import Grid from "@material-ui/core/Grid"
 import Paper from "@material-ui/core/Paper"
+import Button from "@material-ui/core/Button"
 import { makeStyles } from "@material-ui/core"
 
 import AppLayout from "../components/Layouts/AppLayout"
@@ -44,6 +45,14 @@ const Product = () => {
 
 	return (
 		<AppLayout>
+			<div className={classes.buttonContainer}>
+				<Link to="/" className={classes.link}>
+					<Button variant="outlined" color="primary">
+						Go Back
+					</Button>
+				</Link>
+			</div>
+
 			<Paper variant="outlined" className={classes.containerPaper}>
 				{loading ? (
 					"Loading"
