@@ -25,7 +25,7 @@ const QuantityUpdater = props => {
 	const initialFormState = {
 		location: (locations && locations[0]?.id) || 1,
 		quantity: 1,
-		operation: "add",
+		operation: "minus",
 	}
 	const [formInfo, setFormInfo] = useState(initialFormState)
 	const [severity, setSeverity] = useState("success")
@@ -47,6 +47,11 @@ const QuantityUpdater = props => {
 	const handleChange = e => {
 		const { name, value } = e.target
 		setFormInfo({ ...formInfo, [name]: value })
+	}
+
+	const handleCancel = e => {
+		resetForm()
+		handleClose()
 	}
 
 	const handleSubmit = async e => {
@@ -141,7 +146,7 @@ const QuantityUpdater = props => {
 										<Grid item xs={12} sm={6}>
 											<TextField
 												size="small"
-												label="Location"
+												label="Warehouse Location"
 												select
 												value={formInfo.location}
 												name="location"
@@ -205,7 +210,7 @@ const QuantityUpdater = props => {
 								</DialogContent>
 
 								<DialogActions>
-									<Button onClick={handleClose} color="primary">
+									<Button onClick={handleCancel} color="primary">
 										Cancel
 									</Button>
 
